@@ -10,7 +10,9 @@ counter.once('progress', function() {
   remainingTests -= 1;
 });
 var is = fs.createReadStream(path.join(__dirname, 'test.txt'));
-is.pipe(counter);
+var os = fs.createWriteStream(path.join(__dirname, 'test-out.txt'));
+is.pipe(counter)
+  .pipe(os);
 is.on('end', function() {
   remainingTests -= 1;
   assert.strictEqual(counter.bytes, 5);
